@@ -1,4 +1,5 @@
 const gameContainer = document.getElementById("game");
+const reStart = document.getElementById("restart");
 
 const COLORS = [
   "red",
@@ -101,6 +102,21 @@ function handleCardClick(event) {
 }
 
 // when the DOM loads
-console.log(cardsFlibped);
-console.log(points);
 createDivsForColors(shuffledColors);
+console.log(COLORS);
+
+// Restart Button Clicked
+function deleteDivs() {
+  sessionStorage.clear();
+  points = 0;
+  const divs = document.querySelector("#game");
+  const divColored = document.querySelectorAll("#game div");
+  for (let ele of divColored) {
+    divs.removeChild(ele);
+  }
+  shuffle(COLORS);
+  createDivsForColors(COLORS);
+}
+reStart.addEventListener("click", function (e) {
+  deleteDivs();
+});
