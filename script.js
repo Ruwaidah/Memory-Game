@@ -10,7 +10,7 @@ const COLORS = [
   "blue",
   "green",
   "orange",
-  "purple"
+  "purple",
 ];
 
 // here is a helper function to shuffle an array
@@ -37,6 +37,7 @@ function shuffle(array) {
 }
 
 let shuffledColors = shuffle(COLORS);
+console.log(shuffledColors);
 
 // this function loops over the array of colors
 // it creates a new div and gives it a class with the value of the color
@@ -57,11 +58,49 @@ function createDivsForColors(colorArray) {
   }
 }
 
+let isClickable = true;
+const cardsFlibped = [];
+let points = 0;
 // TODO: Implement this function!
 function handleCardClick(event) {
   // you can use event.target to see which element was clicked
-  console.log("you just clicked", event.target);
+  const color = event.target.classList.value;
+  const div = event.target;
+  console.log(points);
+  console.log(cardsFlibped.length);
+  // To prevent so many clicks in the same time
+  if (isClickable) {
+    div.style.backgroundColor = color;
+  }
+
+  if (cardsFlibped.indexOf(div) >= 0 || !isClickable) {
+    console.log(cardsFlibped.indexOf(div) >= 0, div);
+  } else if (!sessionStorage.getItem("divColor")) {
+    sessionStorage.setItem("divColor", color);
+    cardsFlibped.push(div);
+  } else {
+    isClickable = false;
+    setTimeout(() => {
+      console.log(sessionStorage.getItem("divColor") !== color);
+      if (sessionStorage.getItem("divColor") !== color) {
+        div.style.backgroundColor = "white";
+        cardsFlibped[cardsFlibped.length - 1].style.backgroundColor = "white";
+        cardsFlibped.pop();
+      } else {
+        points = points + 20;
+        cardsFlibped.push(div);
+        document.getElementById("score").innerText = `points = ${points}`;
+      }
+      sessionStorage.clear();
+      isClickable = true;
+    }, 1000);
+  }
+
+  if (cardsFlibped.length === COLORS.length) {
+  }
 }
 
 // when the DOM loads
+console.log(cardsFlibped);
+console.log(points);
 createDivsForColors(shuffledColors);
