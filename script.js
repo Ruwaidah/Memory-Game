@@ -60,55 +60,75 @@ function createDivsForColors(colorArray) {
 }
 
 let isClickable = true;
-const cardsFlibped = [];
+let cardsFlibped = [];
 let points = 0;
 // TODO: Implement this function!
 function handleCardClick(event) {
   // you can use event.target to see which element was clicked
   const color = event.target.classList.value;
   const div = event.target;
-  console.log(points);
-  console.log(cardsFlibped.length);
   // To prevent so many clicks in the same time
   if (isClickable) {
+    div.classList.add("flipIT");
     div.style.backgroundColor = color;
   }
 
   if (cardsFlibped.indexOf(div) >= 0 || !isClickable) {
-    console.log(cardsFlibped.indexOf(div) >= 0, div);
   } else if (!sessionStorage.getItem("divColor")) {
     sessionStorage.setItem("divColor", color);
     cardsFlibped.push(div);
   } else {
     isClickable = false;
     setTimeout(() => {
-      console.log(sessionStorage.getItem("divColor") !== color);
       if (sessionStorage.getItem("divColor") !== color) {
-        div.style.backgroundColor = "white";
-        cardsFlibped[cardsFlibped.length - 1].style.backgroundColor = "white";
+        div.classList.remove("flipIT");
+        cardsFlibped[cardsFlibped.length - 1].classList.remove("flipIT");
+        div.style.backgroundColor = "gainsboro";
+        cardsFlibped[cardsFlibped.length - 1].style.backgroundColor =
+          "gainsboro";
         cardsFlibped.pop();
       } else {
         points = points + 20;
         cardsFlibped.push(div);
-        document.getElementById("score").innerText = `points = ${points}`;
+        document.getElementById("score").innerText = `Score = ${points}`;
+        console.log(cardsFlibped, COLORS);
+        console.log(cardsFlibped.length === COLORS.length);
+        if (cardsFlibped.length === COLORS.length) {
+          const body = document.querySelector("body");
+          const endGameDiv = document.createElement("div");
+          const pbtnDiv = document.createElement("div");
+          endGameDiv.classList.add("startNewGame");
+          const newGameBtn = document.createElement("button");
+          newGameBtn.classList.add("newGameBtn");
+          const p = document.createElement("p");
+          body.append(endGameDiv);
+          endGameDiv.append(pbtnDiv);
+          pbtnDiv.append(p);
+          pbtnDiv.append(newGameBtn);
+          p.innerText = "You Win";
+
+          newGameBtn.addEventListener("click", function () {
+            body.removeChild(endGameDiv);
+            deleteDivs();
+          });
+        }
       }
       sessionStorage.clear();
       isClickable = true;
     }, 1000);
   }
-
-  if (cardsFlibped.length === COLORS.length) {
-  }
 }
 
 // when the DOM loads
 createDivsForColors(shuffledColors);
-console.log(COLORS);
 
 // Restart Button Clicked
 function deleteDivs() {
+  console.log("WEFwefwefwefw");
+  cardsFlibped = [];
   sessionStorage.clear();
   points = 0;
+  document.getElementById("score").innerText = `Score = 0`;
   const divs = document.querySelector("#game");
   const divColored = document.querySelectorAll("#game div");
   for (let ele of divColored) {

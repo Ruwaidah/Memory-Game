@@ -1,7 +1,89 @@
+body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#game {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 #game div {
   border: 1px solid black;
-  width: 15%;
+  width: 18%;
   height: 200px;
   margin: 10px;
   display: inline-block;
+  border-radius: 6px;
+  box-shadow: 6px 6px 10px grey;
+  background: gainsboro;
+}
+
+
+#restart {
+  border: none;
+  outline: none;
+  font-size: 1.4rem;
+  background-color: black;
+  color: white;
+  width: 100px;
+  height: 40px;
+  border-radius: 4px;
+}
+
+#score {
+  text-align: center;
+  font-weight: bolder;
+  margin-bottom: 6px;
+}
+
+#restart:hover {
+  background-color: rgb(74, 71, 71)
+}
+
+
+.startNewGame {
+  position: absolute;
+  top:10px;
+
+  width: 100%;
+  height: 100vh;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.startNewGame div {
+  width: 50%;
+  height: 30vh;
+  background-color: black;
+}
+.startNewGame div  p {
+  color: white;
+  width: 100%;;
+}
+
+.startNewGame div  .newGameBtn {
+  width: 100px;
+  height: 40px;
+  color: white;
+}
+
+.flipIT {
+  animation: filp 1s;
+}
+
+@keyframes filp {
+  0% {
+    transform: rotate3d(0, 1, 0, 0);
+  }
+  100% {
+    transform: rotate3d(0, -12, 0, 180deg);
+  }
 }
