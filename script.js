@@ -90,27 +90,11 @@ function handleCardClick(event) {
       } else {
         points = points + 20;
         cardsFlibped.push(div);
-        document.getElementById("score").innerText = `Score = ${points}`;
+        document.getElementById("score").innerText = `Score : ${points}`;
         console.log(cardsFlibped, COLORS);
         console.log(cardsFlibped.length === COLORS.length);
         if (cardsFlibped.length === COLORS.length) {
-          const body = document.querySelector("body");
-          const endGameDiv = document.createElement("div");
-          const pbtnDiv = document.createElement("div");
-          endGameDiv.classList.add("startNewGame");
-          const newGameBtn = document.createElement("button");
-          newGameBtn.classList.add("newGameBtn");
-          const p = document.createElement("p");
-          body.append(endGameDiv);
-          endGameDiv.append(pbtnDiv);
-          pbtnDiv.append(p);
-          pbtnDiv.append(newGameBtn);
-          p.innerText = "You Win";
-
-          newGameBtn.addEventListener("click", function () {
-            body.removeChild(endGameDiv);
-            deleteDivs();
-          });
+          newGameMessage();
         }
       }
       sessionStorage.clear();
@@ -128,7 +112,7 @@ function deleteDivs() {
   cardsFlibped = [];
   sessionStorage.clear();
   points = 0;
-  document.getElementById("score").innerText = `Score = 0`;
+  document.getElementById("score").innerText = `Score : 0`;
   const divs = document.querySelector("#game");
   const divColored = document.querySelectorAll("#game div");
   for (let ele of divColored) {
@@ -140,3 +124,27 @@ function deleteDivs() {
 reStart.addEventListener("click", function (e) {
   deleteDivs();
 });
+
+function newGameMessage() {
+  const body = document.querySelector("body");
+  const endGameDiv = document.createElement("div");
+  const pbtnDiv = document.createElement("div");
+  const p = document.createElement("p");
+  const showScore =  document.createElement("p");
+  endGameDiv.classList.add("startNewGame");
+  const newGameBtn = document.createElement("button");
+  newGameBtn.innerText = "New Game";
+  newGameBtn.classList.add("newGameBtn");
+  body.append(endGameDiv);
+  endGameDiv.append(pbtnDiv);
+  pbtnDiv.append(p);
+  pbtnDiv.append(showScore)
+  pbtnDiv.append(newGameBtn);
+  p.innerText = "You Win";
+  showScore.innerText = "Score : 100"
+
+  newGameBtn.addEventListener("click", function () {
+    body.removeChild(endGameDiv);
+    deleteDivs();
+  });
+}
